@@ -3,6 +3,19 @@ import { getTodos } from "./api/todosApi";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleAddTodos = (e) => {
+    e.preventDefault();
+    if (inputValue.trim() === "") return;
+    const newTodo = {
+      id: Date.now(),
+      todo: inputValue,
+      completed: false,
+    };
+    setTodos([newTodo, ...todos]);
+    setInputValue("");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +31,17 @@ function App() {
   }, []);
   return (
     <div>
+      <header>
+        <form onSubmit={handleAddTodos}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Please enter a todo"
+          />
+          <button type="submit">Add</button>
+        </form>
+      </header>
       <h1>Todo List</h1>
       <ul>
         {todos.map((todo) => (
