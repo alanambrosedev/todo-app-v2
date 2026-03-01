@@ -5,6 +5,12 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
+  function handleDeleteTodos(idToRemove) {
+    const newTodosList = todos.filter((item) => {
+      return item.id !== idToRemove;
+    });
+    setTodos(newTodosList);
+  }
   const handleAddTodos = (e) => {
     e.preventDefault();
     if (inputValue.trim() === "") return;
@@ -47,6 +53,7 @@ function App() {
         {todos.map((todo) => (
           <li key={todo.id}>
             {todo.todo} {todo.completed ? "✅" : "❌"}
+            <button onClick={() => handleDeleteTodos(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
