@@ -11,6 +11,16 @@ function App() {
     });
     setTodos(newTodosList);
   }
+
+  function handleToggleTodos(idToToggle) {
+    const updatedTodos = todos.map((item) => {
+      if (item.id === idToToggle) {
+        return { ...item, completed: !item.completed };
+      }
+      return item;
+    });
+    setTodos(updatedTodos);
+  }
   const handleAddTodos = (e) => {
     e.preventDefault();
     if (inputValue.trim() === "") return;
@@ -52,7 +62,13 @@ function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.todo} {todo.completed ? "✅" : "❌"}
+            {todo.todo}{" "}
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => handleToggleTodos(todo.id)}
+            >
+              {todo.completed ? "✅" : "❌"}
+            </span>
             <button onClick={() => handleDeleteTodos(todo.id)}>Delete</button>
           </li>
         ))}
