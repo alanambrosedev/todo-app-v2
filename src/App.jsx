@@ -34,17 +34,27 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTodos();
+    const saved = localStorage.getItem("myTodos");
+    if (saved && saved.length > 2) {
+      setTodos(JSON.parse(saved));
+      console.log("Loaded from localStorage");
+    } else {
+      const fetchData = async () => {
+        try {
+          const data = await getTodos();
+          console.log("Loaded from API");
 
-        setTodos(data.todos);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
+          setTodos(data.todos);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
+    }
   }, []);
+  useEffect(() => {
+    localStorage.setItem("myTodos", JSON.stringify(todos));
+  }, [todos]);
   return (
     <div>
       <header>
